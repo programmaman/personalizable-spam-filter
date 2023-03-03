@@ -32,8 +32,7 @@ class Graph:
         self.adapter = GraphRequestAdapter(auth_provider)
         self.user_client = GraphServiceClient(self.adapter)
 
-
-async def get_user_token(self):
-    graph_scopes = self.settings['graphUserScopes']
-    access_token = self.device_code_credential.get_token(graph_scopes)
-    return access_token.token
+    async def get_user_token(self):
+        graph_scopes = self.settings['graphUserScopes']
+        access_token = self.device_code_credential.get_token(graph_scopes)
+        return access_token.token
