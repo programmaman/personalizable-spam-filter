@@ -10,6 +10,7 @@ async def main():
     config = configparser.ConfigParser()
     config.read(['config.cfg', 'config.dev.cfg'])
     azure_settings = config['azure']
+    print(azure_settings)
 
     graph: Graph = Graph(azure_settings)
 
@@ -50,8 +51,8 @@ async def greet_user(graph: Graph):
 
 
 async def display_access_token(graph: Graph):
-    # TODO
-    return
+    token = await graph.get_user_token()
+    print('User token:', token, '\n')
 
 
 async def list_inbox(graph: Graph):
