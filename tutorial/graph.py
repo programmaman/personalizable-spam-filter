@@ -48,3 +48,22 @@ class Graph:
 
         user = await self.user_client.me.get(request_configuration=request_config)
         return user
+
+    async def get_inbox(self):
+        query_parameters = MessagesRequestBuilder.MessagesRequestBuilderGetQueryParameters(
+            # Select necessary Inbox Properties
+            # TODO: investigate "https://learn.microsoft.com/en-us/graph/api/resources/message?view=graph-rest-1.0"
+            # TODO: for message parameters useful for spam filtering
+            select=['from', 'subject', 'body'],
+            top=10,
+            # Sorted by 'from':
+            orderby=['from DESC']  # Why are parameters not strongly typed and instead are strings?
+        )
+
+        request_config = MessagesRequestBuilder.MessagesRequestBuilderGetRequestConfiguration(
+            query_parameters=query_parameters
+        )
+
+        messages = await self.user_client.me.mail_folders_by_id('inbox').messages.get(
+            request_configuration=request_config)
+        return messages
