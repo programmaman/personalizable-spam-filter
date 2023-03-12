@@ -62,15 +62,18 @@ async def display_access_token(graph: Graph):
 async def list_inbox(graph: Graph):
     message_page = await graph.get_inbox()
     if message_page is not None and message_page.value is not None:
-        #  Output each of the messages in the list details
+        # Output each message's details
         for message in message_page.value:
             print('Message:', message.subject)
-            if message.from_ is not None and message.from_.email_address is not None:
-                print('From:', message.from_.email_address.name or 'NONE')
+            if (
+                    message.from_ is not None and
+                    message.from_.email_address is not None
+            ):
+                print('  From:', message.from_.email_address.name or 'NONE')
             else:
-                print('From: NONE')
-            print('Status:', 'Read' if message.is_read else 'Unread')
-            print('Body:', message.body)
+                print('  From: NONE')
+            print('  Status:', 'Read' if message.is_read else 'Unread')
+            print('  Received:', message.received_date_time)
 
         # If @odata.nextLink is present
         more_available = message_page.odata_next_link is not None
